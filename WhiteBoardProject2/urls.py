@@ -16,15 +16,24 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth import views as auth_views 
 from django.urls import path
-from students import views as student_views
+from django.conf import settings
+from django.conf.urls.static import static
+from students import views as student_views 
 from enrollment import views as enrollment_views
+from enrollment.views import EnrollmentListView, EnrollmentDetailView
+from students import signals 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('register/', student_views.register, name='register' ),
+   path('admin/', admin.site.urls),
+    #path('admin/login/?next=/admin/', admin.site.urls),
+    path('register/', student_views.register, name='register'),
     path('profile/', student_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='students/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='students/logout.html'), name='logout'),
-    path('', enrollment_views.home, name='enrollment-home')
-         # enrollment_views.StudentCourseListView.as_view(template_name='enrollment-home.html') ,name='enrollment-home'),
+    path('', EnrollmentListView.as_view(), name='enrollment-home'),
+    path('enrollment/<int:pk>/', EnrollmentDetailView.as_view(), name='enrollment-detail'),
+    path('about/', enrollment_views.about, name='about')
 ]
+
+if settings.DEBUG:
+    urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

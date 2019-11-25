@@ -6,15 +6,29 @@ from django.views.generic import(ListView, DetailView)
 from .models import Course, Enrollment
 
 
-def home(request):
-    return render(request, 'enrollment/enrollment-home.html')
+def about(request):
+    return render(request, 'enrollment/about.html')
 
-class StudentCourseListView(ListView):
+class EnrollmentListView(LoginRequiredMixin, ListView):
     model=Enrollment
-    template_name='enrollment/enrollment-home.html'
-    
+    template_name='enrollment/home.html'
+    context_object_name='enrollments'
+    ordering=['-date_enrolled']
     
     def get_queryset(self):
-        user=get_object_or_404(User, username=self.kwargs.get('username'))
-        return Enrollment.objects.filter(student=user).order_by('-date_enrolled')
+        user=self.request.user
+        return Enrollment.objects.filter(user=user).order_by('-date_enrolled')
+    
+    # def get_queryset(self):
+    #     user=get_object_or_404(User, username=self.kwargs.get('username'))
+    #     return Enrollment.objects.filter(user=user).order_by('-date_enrolled')
+    
+    
+class EnrollmentDetailView(LoginRequiredMixin, DetailView):
+    model=Enrollment
+    
+    
+    
+    
+    
     

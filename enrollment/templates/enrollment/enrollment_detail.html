@@ -1,0 +1,17 @@
+{% extends "enrollment/base.html" %}  
+{% block content %}
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ enrollment.user.profile.image.url }}">
+          <div class="media-body">
+            <div class="article-metadata">
+              <p class="mr-2">{{ object.student.username }}</p>
+              <small class="text-muted">{{ object.date_enrolled | date:"F d, Y" }}</small>
+            </div>
+            <h2 class="article-title">Grades for {{ object.course.title }}</h2>
+            <p class="article-content">Midterm 1 exam: {{ object.midterm1 }}</p>
+            <p class="article-content">Midterm 2 exam: {{ object.midterm2 }}</p>
+            <p class="article-content">Final exam:     {{ object.final }}</p>
+            <p class="article-content">GPA: pending computation</p>
+          </div>
+        </article>
+{% endblock content %}

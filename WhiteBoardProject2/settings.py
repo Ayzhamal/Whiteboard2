@@ -122,6 +122,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# to store uploaded profile pictures in our system
+MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
+
+# public url for pictures, how we can access 
+MEDIA_URL='/media/'
+
 CRISPY_TEMPLATE_PACK='bootstrap4'
 
 LOGIN_REDIRECT_URL='enrollment-home'
